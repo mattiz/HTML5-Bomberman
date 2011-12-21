@@ -1,33 +1,4 @@
 /*
- * Game object
- */
-function GameObject() {
-
-}
-
-
-/*
- * Tiles
- */
-Tile.prototype = new GameObject();
-Tile.prototype.constructor = Tile;
-
-function Tile(x, y, image) {
-	this.x = x;
-	this.y = y;
-	this.image = image;
-}
-
-Tile.prototype.update = function() {
-	
-}
-
-Tile.prototype.draw = function(game) {
-	game.drawImage( this.image, this.x, this.y );
-};
-
-
-/*
  * Players
  */
 Player.prototype = new GameObject();
@@ -156,15 +127,4 @@ Player.prototype.stop = function() {
 	this.walkDownBool = false;
 	this.walkLeftBool = false;
 	this.walkRightBool = false;
-}
-
-
-/**
- * Key contants
- */
-var Key = {
-	UP: 38,
-	DOWN: 40,
-	LEFT: 37,
-	RIGHT: 39
 }
