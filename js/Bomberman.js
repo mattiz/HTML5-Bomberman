@@ -11,8 +11,8 @@ $(document).ready(function() {
 		[0, 2, 1, 2, 1, 2, 0, 2, 0, 2, 1, 2, 1, 2, 0],
 		[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
 		[0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 2, 0, 2, 1],
-		[1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
-		[1, 2, 0, 2, 1, 2, 0, 2, 0, 2, 1, 2, 0, 2, 1],
+		[1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+		[1, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 2, 1],
 		[0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1],
 		[1, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 2, 0, 2, 0],
 		[1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1],
@@ -66,13 +66,48 @@ $(document).ready(function() {
 		// Add player
 		elements.push( player );
 
-		setInterval( gameLoop, 30 );
+		var fps = 33;
+		setInterval( gameLoop, 1000/fps );
 	}
 
 	/* MAIN LOOP */
 	function gameLoop() {
 		update();
+		collisionDetection();
 		draw();
+	}
+
+	function collisionDetection() {
+		var coll = false;
+		for( var i = 0; i < window.elements.length; i++ ) {
+			var e1 = elements[ i ];
+
+			for( var u = 0; u < window.elements.length; u++ ) {
+				var e2 = elements[ u ];
+
+				if( e1 != e2 && isRectanglesColliding(
+					e1.boundingBox.x,
+					e1.boundingBox.y,
+					e1.boundingBox.width,
+					e1.boundingBox.height,
+					e2.boundingBox.x,
+					e2.boundingBox.y,
+					e2.boundingBox.width,
+					e2.boundingBox.height )
+				) {
+					coll = true;
+
+					e1.collidesWith( e2 );
+					e2.collidesWith( e1 );
+				}
+			}
+		}
+
+		if( coll ) {
+			$("#a").css('background', 'red');
+		} else {
+			$("#a").css('background', 'green');
+		}
 	}
 
 	function update() {

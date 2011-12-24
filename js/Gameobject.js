@@ -2,5 +2,5 @@
  * Game object
  */
 function GameObject() {
-
+	
 }
