@@ -18,49 +18,73 @@ function Player(x, y, image) {
 }
 
 Player.prototype.update = function() {
-	if( ! this.isColliding ) {
-		if( this.walkUpBool && ! this.isCollidingWithTopEdge() ) {
-			this.y -= this.speed;
-			this.boundingBox.y -= this.speed;
-		}
-
-		if( this.walkDownBool && ! this.isCollidingWithBottomEdge() ) {
-			this.y += this.speed;
-			this.boundingBox.y += this.speed;
-		}
-
-		if( this.walkLeftBool && ! this.isCollidingWithLeftEdge() ) {
-			this.x -= this.speed;
-			this.boundingBox.x -= this.speed;
-		}
-
-		if( this.walkRightBool && ! this.isCollidingWithRightEdge() ) {
-			this.x += this.speed;
-			this.boundingBox.x += this.speed;
-		}
+	if( this.walkUpBool && ! this.isCollidingWithTopEdge() ) {
+		this.y -= this.speed;
+		this.boundingBox.y -= this.speed;
 	}
 
-	this.isColliding = false;
+	if( this.walkDownBool && ! this.isCollidingWithBottomEdge() ) {
+		this.y += this.speed;
+		this.boundingBox.y += this.speed;
+	}
+
+	if( this.walkLeftBool && ! this.isCollidingWithLeftEdge() ) {
+		this.x -= this.speed;
+		this.boundingBox.x -= this.speed;
+	}
+
+	if( this.walkRightBool && ! this.isCollidingWithRightEdge() ) {
+		this.x += this.speed;
+		this.boundingBox.x += this.speed;
+	}
 }
 
 Player.prototype.isCollidingWithLeftEdge = function() {
-	return ( this.x < 20 );
+	return ( this.boundingBox.x < 20 );
 }
 
 Player.prototype.isCollidingWithRightEdge = function() {
-	return ( (this.x + 30) > 610 );
+	return ( (this.boundingBox.x+this.boundingBox.width) > 615 );
 }
 
 Player.prototype.isCollidingWithTopEdge = function() {
-	return ( (this.y+50) < 66 );
+	return ( (this.boundingBox.y) < 66 );
 }
 
 Player.prototype.isCollidingWithBottomEdge = function() {
-	return ( (this.y+70) > 462 );
+	return ( (this.boundingBox.y+this.boundingBox.height) > 460 );
 }
 
 Player.prototype.collidesWith = function( obj ) {
-	this.isColliding = true;
+	// obj = tile, this = player
+
+	if( this.walkUpBool ) {
+		var diff = this.boundingBox.y - (obj.boundingBox.y+obj.boundingBox.height) - 1;
+		
+		this.y -= diff;
+		this.boundingBox.y -= diff;
+	}
+
+	if( this.walkDownBool ) {
+		var diff = (this.boundingBox.y+this.boundingBox.height) - obj.boundingBox.y + 1;
+		
+		this.y -= diff;
+		this.boundingBox.y -= diff;
+	}
+
+	if( this.walkLeftBool ) {
+		var diff = this.boundingBox.x - (obj.boundingBox.x+obj.boundingBox.width) - 1;
+		
+		this.x -= diff;
+		this.boundingBox.x -= diff;
+	}
+
+	if( this.walkRightBool ) {
+		var diff = (this.boundingBox.x+this.boundingBox.width) - obj.boundingBox.x + 1;
+		
+		this.x -= diff;
+		this.boundingBox.x -= diff;
+	}
 }
 
 Player.prototype.draw = function(game) {
