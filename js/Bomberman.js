@@ -5,7 +5,8 @@ $(document).ready(function() {
 	var brick = new Image();
 	var stone = new Image();
 	var images = [ '', brick, stone ];
-
+	var FPS = 33;
+	var player = new Player( 100, 100, playerImg );
 	var tiles = [
 		[0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0],
 		[0, 2, 1, 2, 1, 2, 0, 2, 0, 2, 1, 2, 1, 2, 0],
@@ -19,8 +20,6 @@ $(document).ready(function() {
 		[0, 2, 0, 2, 1, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0],
 		[0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0]
 	];
-
-	var player = new Player( 100, 100, playerImg );
 
 	window.onkeydown = function( e ) {
 		if( e.keyCode == Key.UP ) {
@@ -66,8 +65,7 @@ $(document).ready(function() {
 		// Add player
 		elements.push( player );
 
-		var fps = 33;
-		setInterval( gameLoop, 1000/fps );
+		setInterval( gameLoop, 1000/FPS );
 	}
 
 	/* MAIN LOOP */

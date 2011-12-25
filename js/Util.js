@@ -8,6 +8,13 @@ var Key = {
 	RIGHT: 39
 }
 
+var Direction = {
+	UP: 1,
+	DOWN: 2,
+	LEFT: 3,
+	RIGHT: 4
+}
+
 function Rectangle( x, y, width, height) {
 	this.x = x;
 	this.y = y;

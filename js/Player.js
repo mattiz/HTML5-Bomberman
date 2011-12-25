@@ -7,33 +7,30 @@ Player.prototype.constructor = Player;
 function Player(x, y, image) {
 	this.x = x;
 	this.y = y;
-	this.speed = 5;
+	this.speed = 0;
+	this.maxSpeed = 5;
 	this.image = image;
-	this.walkUpBool = false;
-	this.walkDownBool = false;
-	this.walkLeftBool = false;
-	this.walkRightBool = false;
-	this.isColliding = false;
+	this.direction = Direction.UP;
 	this.boundingBox = new Rectangle( this.x+4,  this.y+50, 30, 20 );
 }
 
 Player.prototype.update = function() {
-	if( this.walkUpBool && ! this.isCollidingWithTopEdge() ) {
+	if( this.direction == Direction.UP && ! this.isCollidingWithTopEdge() ) {
 		this.y -= this.speed;
 		this.boundingBox.y -= this.speed;
 	}
 
-	if( this.walkDownBool && ! this.isCollidingWithBottomEdge() ) {
+	if( this.direction == Direction.DOWN && ! this.isCollidingWithBottomEdge() ) {
 		this.y += this.speed;
 		this.boundingBox.y += this.speed;
 	}
 
-	if( this.walkLeftBool && ! this.isCollidingWithLeftEdge() ) {
+	if( this.direction == Direction.LEFT && ! this.isCollidingWithLeftEdge() ) {
 		this.x -= this.speed;
 		this.boundingBox.x -= this.speed;
 	}
 
-	if( this.walkRightBool && ! this.isCollidingWithRightEdge() ) {
+	if( this.direction == Direction.RIGHT && ! this.isCollidingWithRightEdge() ) {
 		this.x += this.speed;
 		this.boundingBox.x += this.speed;
 	}
@@ -58,28 +55,28 @@ Player.prototype.isCollidingWithBottomEdge = function() {
 Player.prototype.collidesWith = function( obj ) {
 	// obj = tile, this = player
 
-	if( this.walkUpBool ) {
+	if( this.direction == Direction.UP ) {
 		var diff = this.boundingBox.y - (obj.boundingBox.y+obj.boundingBox.height) - 1;
 		
 		this.y -= diff;
 		this.boundingBox.y -= diff;
 	}
 
-	if( this.walkDownBool ) {
+	if( this.direction == Direction.DOWN ) {
 		var diff = (this.boundingBox.y+this.boundingBox.height) - obj.boundingBox.y + 1;
 		
 		this.y -= diff;
 		this.boundingBox.y -= diff;
 	}
 
-	if( this.walkLeftBool ) {
+	if( this.direction == Direction.LEFT ) {
 		var diff = this.boundingBox.x - (obj.boundingBox.x+obj.boundingBox.width) - 1;
 		
 		this.x -= diff;
 		this.boundingBox.x -= diff;
 	}
 
-	if( this.walkRightBool ) {
+	if( this.direction == Direction.RIGHT ) {
 		var diff = (this.boundingBox.x+this.boundingBox.width) - obj.boundingBox.x + 1;
 		
 		this.x -= diff;
@@ -99,24 +96,25 @@ Player.prototype.draw = function(game) {
 };
 
 Player.prototype.walkUp = function() {
-	this.walkUpBool = true;
+	this.direction = Direction.UP;
+	this.speed = this.maxSpeed;
 }
 
 Player.prototype.walkDown = function() {
-	this.walkDownBool = true;
+	this.direction = Direction.DOWN;
+	this.speed = this.maxSpeed;
 }
 
 Player.prototype.walkLeft = function() {
-	this.walkLeftBool = true;
+	this.direction = Direction.LEFT;
+	this.speed = this.maxSpeed;
 }
 
 Player.prototype.walkRight = function() {
-	this.walkRightBool = true;
+	this.direction = Direction.RIGHT;
+	this.speed = this.maxSpeed;
 }
 
 Player.prototype.stop = function() {
-	this.walkUpBool = false;
-	this.walkDownBool = false;
-	this.walkLeftBool = false;
-	this.walkRightBool = false;
+	this.speed = 0;
 }
