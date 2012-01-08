@@ -24,7 +24,6 @@ Tile.prototype.draw = function(game) {
 	game.drawImage( this.image, this.x, this.y );
 	
 	if( this.isColliding ) {
-		//game.fillRect( this.x, this.y, this.image.width, this.image.height );
 		game.fillRect( this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height );
 	}
 

@@ -8,9 +8,9 @@ $(document).ready(function() {
 	var FPS = 33;
 	var player = new Player( 100, 100, playerImg );
 	var tiles = [
-		[0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-		[0, 2, 1, 2, 1, 2, 0, 2, 0, 2, 1, 2, 1, 2, 0],
-		[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+		[0, 2, 0, 2, 1, 2, 0, 2, 0, 2, 1, 2, 1, 2, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 2, 0, 2, 1],
 		[1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
 		[1, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 2, 1],
@@ -77,26 +77,24 @@ $(document).ready(function() {
 
 	function collisionDetection() {
 		var coll = false;
+		var test = false;
+
 		for( var i = 0; i < window.elements.length; i++ ) {
 			var e1 = elements[ i ];
 
 			for( var u = 0; u < window.elements.length; u++ ) {
 				var e2 = elements[ u ];
 
-				if( e1 != e2 && isRectanglesColliding(
-					e1.boundingBox.x,
-					e1.boundingBox.y,
-					e1.boundingBox.width,
-					e1.boundingBox.height,
-					e2.boundingBox.x,
-					e2.boundingBox.y,
-					e2.boundingBox.width,
-					e2.boundingBox.height )
-				) {
-					coll = true;
+				// Player = circle, tiles = rectangles
+				if( e1.boundingBox instanceof Rectangle && e2.boundingBox instanceof Circle) {
+					test = true;
+					
+					if( isCircleAndRectangleColliding( e2.boundingBox, e1.boundingBox ) ) {
+						coll = true;
 
-					e1.collidesWith( e2 );
-					e2.collidesWith( e1 );
+						e1.collidesWith( e2 );
+						e2.collidesWith( e1 );
+					}
 				}
 			}
 		}
@@ -105,6 +103,12 @@ $(document).ready(function() {
 			$("#a").css('background', 'red');
 		} else {
 			$("#a").css('background', 'green');
+		}
+
+		if( test ) {
+			$("#b").css('background', 'red');
+		} else {
+			$("#b").css('background', 'green');
 		}
 	}
 

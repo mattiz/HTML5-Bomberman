@@ -15,7 +15,7 @@ function Player(x, y, image) {
 	this.i = 0;
 
 	this.direction = Direction.DOWN;
-	this.boundingBox = new Rectangle( this.x+4,  this.y+50, 30, 20 );
+	this.boundingBox = new Circle( this.x+24, this.y+63, 15 );
 }
 
 Player.prototype.update = function() {
@@ -58,30 +58,30 @@ Player.prototype.isCollidingWithBottomEdge = function() {
 
 Player.prototype.collidesWith = function( obj ) {
 	// obj = tile, this = player
-
+	// Player = circle, tiles = rectangles
 	if( this.direction == Direction.UP ) {
-		var diff = this.boundingBox.y - (obj.boundingBox.y+obj.boundingBox.height) - 1;
+		var diff = this.boundingBox.y-this.boundingBox.radius - (obj.boundingBox.y+obj.boundingBox.height);
 		
 		this.y -= diff;
 		this.boundingBox.y -= diff;
 	}
 
 	if( this.direction == Direction.DOWN ) {
-		var diff = (this.boundingBox.y+this.boundingBox.height) - obj.boundingBox.y + 1;
+		var diff = (this.boundingBox.y+this.boundingBox.radius) - obj.boundingBox.y;
 		
 		this.y -= diff;
 		this.boundingBox.y -= diff;
 	}
 
 	if( this.direction == Direction.LEFT ) {
-		var diff = this.boundingBox.x - (obj.boundingBox.x+obj.boundingBox.width) - 1;
+		var diff = this.boundingBox.x - this.boundingBox.radius - (obj.boundingBox.x+obj.boundingBox.width);
 		
 		this.x -= diff;
 		this.boundingBox.x -= diff;
 	}
 
 	if( this.direction == Direction.RIGHT ) {
-		var diff = (this.boundingBox.x+this.boundingBox.width) - obj.boundingBox.x + 1;
+		var diff = (this.boundingBox.x+this.boundingBox.radius) - obj.boundingBox.x;
 		
 		this.x -= diff;
 		this.boundingBox.x -= diff;
@@ -89,8 +89,6 @@ Player.prototype.collidesWith = function( obj ) {
 }
 
 Player.prototype.draw = function(game) {
-	//game.drawImage( this.image, this.x, this.y );
-
 	if( this.speed > 0 ) {
 		this.i++;
 	}
@@ -108,12 +106,11 @@ Player.prototype.draw = function(game) {
 	
 	/* Draw the bounding box */
 	game.strokeStyle = "rgb(200,0,0)";
-	game.strokeRect(
-		this.boundingBox.x,
-		this.boundingBox.y,
-		this.boundingBox.width,
-		this.boundingBox.height );
-
+	game.beginPath();
+	game.arc( this.boundingBox.x, this.boundingBox.y, this.boundingBox.radius, 0, Math.PI*2, true );
+	game.closePath();
+	game.stroke();
+	
 };
 
 Player.prototype.walkUp = function() {
