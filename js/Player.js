@@ -7,10 +7,14 @@ Player.prototype.constructor = Player;
 function Player(x, y, image) {
 	this.x = x;
 	this.y = y;
+	this.width = 51;
+	this.height = 77;
 	this.speed = 0;
 	this.maxSpeed = 5;
 	this.image = image;
-	this.direction = Direction.UP;
+	this.i = 0;
+
+	this.direction = Direction.DOWN;
 	this.boundingBox = new Rectangle( this.x+4,  this.y+50, 30, 20 );
 }
 
@@ -85,14 +89,31 @@ Player.prototype.collidesWith = function( obj ) {
 }
 
 Player.prototype.draw = function(game) {
-	game.drawImage( this.image, this.x, this.y );
+	//game.drawImage( this.image, this.x, this.y );
+
+	if( this.speed > 0 ) {
+		this.i++;
+	}
+
+	game.drawImage(
+		this.image,
+		this.width*(this.i%15),
+		this.height * this.direction,
+		this.width,
+		this.height,
+		this.x,
+		this.y,
+		this.width,
+		this.height );
 	
+	/* Draw the bounding box */
 	game.strokeStyle = "rgb(200,0,0)";
 	game.strokeRect(
 		this.boundingBox.x,
 		this.boundingBox.y,
 		this.boundingBox.width,
 		this.boundingBox.height );
+
 };
 
 Player.prototype.walkUp = function() {

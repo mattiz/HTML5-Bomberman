@@ -12,7 +12,7 @@ var Direction = {
 	UP: 1,
 	DOWN: 2,
 	LEFT: 3,
-	RIGHT: 4
+	RIGHT: 0
 }
 
 function Rectangle( x, y, width, height) {

@@ -46,7 +46,7 @@ $(document).ready(function() {
 
 	/* INIT */
 	function init() {
-		playerImg.src = 'img/player.png';
+		playerImg.src = 'img/green-player.png';
 		brick.src = 'img/brick.png';
 		stone.src = 'img/stone.png';
 
