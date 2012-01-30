@@ -59,32 +59,27 @@ Player.prototype.isCollidingWithBottomEdge = function() {
 Player.prototype.collidesWith = function( obj ) {
 	// obj = tile, this = player
 	// Player = circle, tiles = rectangles
-	if( this.direction == Direction.UP ) {
-		var diff = this.boundingBox.y-this.boundingBox.radius - (obj.boundingBox.y+obj.boundingBox.height);
-		
-		this.y -= diff;
-		this.boundingBox.y -= diff;
-	}
 
-	if( this.direction == Direction.DOWN ) {
-		var diff = (this.boundingBox.y+this.boundingBox.radius) - obj.boundingBox.y;
-		
-		this.y -= diff;
-		this.boundingBox.y -= diff;
-	}
+	while( isCircleAndRectangleColliding( this.boundingBox, obj.boundingBox ) ) {
+		if( this.direction == Direction.UP ) {
+			this.y++;
+			this.boundingBox.y++;
+		}
 
-	if( this.direction == Direction.LEFT ) {
-		var diff = this.boundingBox.x - this.boundingBox.radius - (obj.boundingBox.x+obj.boundingBox.width);
-		
-		this.x -= diff;
-		this.boundingBox.x -= diff;
-	}
+		if( this.direction == Direction.DOWN ) {
+			this.y--;
+			this.boundingBox.y--;
+		}
 
-	if( this.direction == Direction.RIGHT ) {
-		var diff = (this.boundingBox.x+this.boundingBox.radius) - obj.boundingBox.x;
-		
-		this.x -= diff;
-		this.boundingBox.x -= diff;
+		if( this.direction == Direction.LEFT ) {
+			this.x++;
+			this.boundingBox.x++;
+		}
+
+		if( this.direction == Direction.RIGHT ) {
+			this.x--;
+			this.boundingBox.x--;
+		}		
 	}
 }
 
